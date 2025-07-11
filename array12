@@ -1,0 +1,24 @@
+def maxCircularSum(arr):
+    
+    n = len(arr)
+    res = arr[0]
+    
+    # Subarray that starts with index i
+    for i in range(n):
+        currSum = 0
+        
+        # Considering all possible endpoints of the 
+        # Subarray that begins with index i
+        for j in range(n):
+            
+            # Circular index
+            idx = (i + j) % n
+            currSum += arr[idx]            
+            res = max(res, currSum)
+    
+    return res
+    
+if __name__ == "__main__":
+    
+    arr = [8, -8, 9, -9, 10, -11, 12]
+    print(maxCircularSum(arr))
