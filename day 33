@@ -1,0 +1,47 @@
+# Python program to find maximum possible minimum distance
+# between any two cows by iterating over all distances
+
+# function to check if we can place k cows
+# with at least dist distance apart
+def check(stalls, k, dist):
+    
+    # Place first cow at 0th index
+    cnt = 1  
+    prev = stalls[0] 
+    for i in range(1, len(stalls)):
+        
+        # If the current stall is at least dist away
+        # from the previous one place the cow here
+        if stalls[i] - prev >= dist:
+            prev = stalls[i] 
+            cnt += 1
+
+    # Return true if we are able to place all 'k' cows
+    return cnt >= k
+
+def aggressiveCows(stalls, k):
+  
+    # sorting the array to ensure stalls in sequence
+    stalls.sort()
+    res = 0
+  
+    # Minimum and maximum possible minimum distance
+    # between two stalls
+    minDist = 1
+    maxDist = stalls[-1] - stalls[0]  
+
+    # Iterating through all possible distances 
+    for i in range(minDist, maxDist + 1):
+        
+        # If we can place k cows with the 
+        # current distance i, update the res
+        if check(stalls, k, i):
+            res = i  
+
+    return res
+
+if __name__ == "__main__":
+	stalls = [1, 2, 4, 8, 9] 
+	k = 3
+	ans = aggressiveCows(stalls, k)
+	print(ans)
