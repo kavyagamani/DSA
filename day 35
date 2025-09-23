@@ -1,1 +1,23 @@
 day 35
+def kthMissing(arr, k):
+    # insert all array elements into a set
+    s = set(arr)
+    
+    count = 0
+    curr = 0
+
+    # loop until we find the k-th missing number
+    while count < k:
+        curr += 1
+        
+        # increment missing count if current 
+        # element is missing
+        if curr not in s:
+            count += 1
+    
+    return curr
+
+if __name__ == "__main__":
+    arr = [2, 3, 4, 7, 11]
+    k = 5
+    print(kthMissing(arr, k))
