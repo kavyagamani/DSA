@@ -1,0 +1,60 @@
+class Node:
+    def __init__(self, newData):
+        self.data = newData
+        self.next = None
+
+def rotate(head, k):
+
+    if k == 0 or head is None:
+        return head
+
+    curr = head
+    length = 1
+
+    # find the length of the linked list
+    while curr.next is not None:
+        curr = curr.next
+        length += 1
+
+    # modulo k with length of linked list to handle
+    # large values of k
+    k %= length
+
+    if k == 0:
+        curr.next = None
+        return head
+
+    # make the linked list circular
+    curr.next = head
+
+    # traverse the linked list to find the kth node
+    curr = head
+    for _ in range(1, k):
+        curr = curr.next
+
+    # update the (k + 1)th node as the new head
+    newHead = curr.next
+
+    # break the loop by updating the next pointer
+    # of kth node
+    curr.next = None
+    return newHead
+
+def printList(node):
+    while node is not None:
+        print(node.data, end="")
+        if node.next != None:
+            print(" -> ", end="")
+        node = node.next
+
+if __name__ == "__main__":
+
+    # create a hard-coded linked list
+    # 10 -> 20 -> 30 -> 40
+    head = Node(10)
+    head.next = Node(20)
+    head.next.next = Node(30)
+    head.next.next.next = Node(40)
+
+    head = rotate(head, 6)
+    printList(head)
