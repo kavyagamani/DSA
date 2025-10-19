@@ -1,0 +1,61 @@
+# Node class
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+# Function to reverse linked list in groups of size k
+def reverse_in_groups(head, k):
+    if head is None:
+        return None
+
+    current = head
+    prev = None
+    next_node = None
+    count = 0
+
+    # Reverse first k nodes
+    while current is not None and count < k:
+        next_node = current.next
+        current.next = prev
+        prev = current
+        current = next_node
+        count += 1
+
+    # next_node now points to (k+1)th node
+    # Recur for remaining list and connect the two parts
+    if next_node is not None:
+        head.next = reverse_in_groups(next_node, k)
+
+    # prev is the new head of the reversed group
+    return prev
+
+
+# Function to print the linked list
+def print_list(head):
+    temp = head
+    while temp:
+        print(temp.data, end=" -> ")
+        temp = temp.next
+    print("NULL")
+
+
+# Example usage
+if __name__ == "__main__":
+    # Create linked list: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> NULL
+    head = Node(1)
+    head.next = Node(2)
+    head.next.next = Node(3)
+    head.next.next.next = Node(4)
+    head.next.next.next.next = Node(5)
+    head.next.next.next.next.next = Node(6)
+
+    k = 2
+
+    print("Original List:")
+    print_list(head)
+
+    head = reverse_in_groups(head, k)
+
+    print(f"\nReversed in groups of {k}:")
+    print_list(head)
