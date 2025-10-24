@@ -1,0 +1,36 @@
+from collections import OrderedDict
+
+class LRUCache:
+    def __init__(self, capacity):
+        # initialize cache and capacity
+        self.cache = OrderedDict()
+        self.capacity = capacity
+
+    def get(self, key):
+        # return value if present, else -1
+        if key not in self.cache:
+            return -1
+        # move key to end to mark as recently used
+        self.cache.move_to_end(key)
+        return self.cache[key]
+
+    def put(self, key, value):
+        # if key exists, remove it (to update position)
+        if key in self.cache:
+            del self.cache[key]
+        # insert key-value
+        self.cache[key] = value
+        # if capacity exceeded, remove least recently used (first inserted)
+        if len(self.cache) > self.capacity:
+            self.cache.popitem(last=False)
+
+
+def processQueries(cap, Q, Queries):
+    lru = LRUCache(cap)
+    result = []
+    for query in Queries:
+        if query[0] == "PUT":
+            lru.put(int(query[1]), int(query[2]))
+        elif query[0] == "GET":
+            result.append(lru.get(int(query[1])))
+    return result
