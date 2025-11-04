@@ -1,0 +1,15 @@
+class Solution:
+    def power(self, b: float, e: int) -> float:
+        # Code Here
+        if e == 0:
+            return 1
+        if e < 0:
+            return 1/power(b,-e)
+        
+        temp= power(b,e//2)
+        
+        if e % 2 == 0:
+            return temp * temp
+        else:
+            return b * temp * temp
+            
