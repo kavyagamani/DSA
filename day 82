@@ -1,0 +1,44 @@
+# Node Structure
+class Node:
+    def __init__(self, x):
+        self.data = x
+        self.left = None
+        self.right = None
+
+# Global variable to store the maximum diameter
+maxDiameter = 0
+
+# Recursive function to calculate height and update diameter
+def diameterRecur(root):
+    global maxDiameter
+    if root is None:
+        return 0
+
+    # Find the height of left and right subtree
+    lHeight = diameterRecur(root.left)
+    rHeight = diameterRecur(root.right)
+    
+    # Update the global max diameter if this node gives a longer path
+    maxDiameter = max(maxDiameter, lHeight + rHeight)
+    
+    # Return height of current subtree
+    return 1 + max(lHeight, rHeight)
+    
+# Function to get diameter of a binary tree
+def diameter(root):
+    global maxDiameter
+    
+    maxDiameter = 0
+    
+    diameterRecur(root)
+    
+    return maxDiameter
+
+if __name__ == "__main__":
+    root = Node(5)
+    root.left = Node(8)
+    root.right = Node(6)
+    root.left.left = Node(3)
+    root.left.right = Node(7)
+    root.right.left = Node(9)
+    print(diameter(root))
