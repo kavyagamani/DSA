@@ -1,0 +1,61 @@
+'''
+class Node:
+    def __init__(self, val):
+        self.data = val
+        self.right = None
+        self.left = None
+'''
+
+class Solution:
+    def isLeaf(self,node):
+        return node.left is None and node.right is None
+        
+    def collectLeft(self,root,res):
+        if root is None or self.isLeaf(root):
+            return
+        res.append(root.data)
+        if root.left:
+            self.collectLeft(root.left,res)
+        elif root.right:
+            self.collectLeft(root.right,res)
+            
+    def collectLeaves(self,root,res):
+        if root is None:
+            return
+        if self.isLeaf(root):
+            res.append(root.data)
+            return
+        self.collectLeaves(root.left,res)
+        self.collectLeaves(root.right,res)
+        
+        
+    def collectRight(self,root,res):
+        if root is None or self.isLeaf(root):
+            return
+        if root.right:
+            self.collectRight(root.right,res)
+        elif root.left:
+            self.collectRight(root.left,res)
+        res.append(root.data)
+        
+         
+        
+            
+    def boundaryTraversal(self, root):
+        # code here
+        res = []
+        if not root:
+            return res
+        
+        if not self.isLeaf(root):
+            res.append(root.data)
+        
+        self.collectLeft(root.left,res)
+    
+        self.collectLeaves(root,res)
+        
+        self.collectRight(root.right,res)
+        
+        return res
+        
+        
