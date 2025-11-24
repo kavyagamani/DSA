@@ -1,0 +1,32 @@
+class Node:
+    def __init__(self, val):
+        self.data = val
+        self.left = None
+        self.right = None
+
+
+class Solution:
+
+    # Recursive helper
+    def findMaxSumRec(self, root, res):
+        if root is None:
+            return 0
+
+        # Max sum from left and right child (ignore negative sums)
+        left = max(0, self.findMaxSumRec(root.left, res))
+        right = max(0, self.findMaxSumRec(root.right, res))
+
+        # Update global maximum path sum
+        res[0] = max(res[0], left + right + root.data)
+
+        # Return best single path sum upward
+        return root.data + max(left, right)
+
+    # Main function
+    def findMaxSum(self, root):
+        if root is None:
+            return 0
+
+        res = [float('-inf')]
+        self.findMaxSumRec(root, res)
+        return res[0]
