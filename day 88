@@ -1,0 +1,38 @@
+class Node:
+    def __init__(self, val):
+        self.data = val
+        self.left = None
+        self.right = None
+
+
+class Solution:
+
+    def countPathsUtil(self, node, k, currSum, prefSums):
+        if node is None:
+            return 0
+
+        currSum += node.data
+        pathCount = 0
+
+        # Case 1: path starting from root
+        if currSum == k:
+            pathCount += 1
+
+        # Case 2: path from middle
+        pathCount += prefSums.get(currSum - k, 0)
+
+        # Update prefix sum map
+        prefSums[currSum] = prefSums.get(currSum, 0) + 1
+
+        # Recurse
+        pathCount += self.countPathsUtil(node.left, k, currSum, prefSums)
+        pathCount += self.countPathsUtil(node.right, k, currSum, prefSums)
+
+        # Backtrack
+        prefSums[currSum] -= 1
+
+        return pathCount
+
+    def countAllPaths(self, root, k):
+        prefSums = {}
+        return self.countPathsUtil(root, k, 0, prefSums)
