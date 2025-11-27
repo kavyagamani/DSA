@@ -1,0 +1,57 @@
+# Node Structure
+class Node:
+    def __init__(self, x):
+        self.data = x
+        self.left = None
+        self.right = None
+
+# Function to find kth Smallest
+def kthSmallest(root, k):
+    count = 0
+    curr = root
+
+    while curr is not None:
+        if curr.left is None:
+            count += 1
+            if count == k:
+                return curr.data
+            curr = curr.right
+        else:
+            # Find the inorder predecessor of curr
+            prev = curr.left
+            while prev.right is not None and prev.right != curr:
+                prev = prev.right
+
+            # Make curr the right child of its inorder predecessor
+            if prev.right is None:
+                prev.right = curr
+                curr = curr.left
+            else:
+                count += 1
+                if count == k:
+                    return curr.data
+
+                # Revert the changes made in the tree structure
+                prev.right = None
+                curr = curr.right
+    return -1
+
+if __name__ == "__main__":
+    # Binary search tree
+    #      20
+    #    /   \
+    #   8     22
+    #  / \
+    # 4   12
+    #    /  \
+    #   10   14
+    root = Node(20)
+    root.left = Node(8)
+    root.right = Node(22)
+    root.left.left = Node(4)
+    root.left.right = Node(12)
+    root.left.right.left = Node(10)
+    root.left.right.right = Node(14)
+    k = 3
+    
+    print(kthSmallest(root, k))
