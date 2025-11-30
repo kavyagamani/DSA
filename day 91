@@ -1,1 +1,30 @@
+class Solution:
+    def findTarget(self, root, k):
+        
+        # Step 1: inorder traversal to get sorted values
+        arr = []
+        stack = []
+        curr = root
+        
+        while curr or stack:
+            while curr:
+                stack.append(curr)
+                curr = curr.left
+            curr = stack.pop()
+            arr.append(curr.data)
+            curr = curr.right
+        
+        # Step 2: two-pointer approach
+        i, j = 0, len(arr) - 1
+        
+        while i < j:
+            s = arr[i] + arr[j]
+            if s == k:
+                return True
+            elif s < k:
+                i += 1
+            else:
+                j -= 1
+        
+        return False
 
